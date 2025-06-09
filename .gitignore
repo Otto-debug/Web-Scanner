@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# venv
+.venv/
+.venv1/
+
+# PyCharm
+.idea/
+
+# System
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Reports
+reports/
+
+# Environment
+.env
