@@ -10,9 +10,14 @@ from urllib.parse import urljoin, urlparse
 from collections import deque
 
 from scanner.logger import setup_logger
+from scanner.path import LOGS_DIR, REPORTS_DIR
+
 
 # robot.txt парсер
 from urllib.robotparser import RobotFileParser
+
+log_path = LOGS_DIR / 'scanner.log'
+report_path = REPORTS_DIR / 'async2_structure.json'
 
 class AsyncWebCrawler:
     def __init__(self, base_url: str, max_pages: int = 100):
@@ -22,7 +27,7 @@ class AsyncWebCrawler:
         self.max_pages = max_pages # Лимит на кол-во сканируемых страниц
         self.broken_links = () # Кол-во битых ссылок
         self.checked_links = {} # Кэш для проверенных ссылок
-        self.logger = setup_logger() # Логгер
+        self.logger = setup_logger(name='web_scanner', log_file=log_path) # Логгер
         self.sem = asyncio.Semaphore(10) # Семафор - макс. 10 параллельных запросов
         self.robots_parser = RobotFileParser()
         self.robots_parser = None
@@ -223,7 +228,7 @@ class AsyncWebCrawler:
             self.logger.info(f"Сканирование завершено. Всего страниц: {pages_processed}")
             print(f"Сканирование завершено. Всего страниц: {pages_processed}")
 
-    def save_html_report(self, filename: str = 'reports/report.html'):
+    def save_html_report(self, filename: str = report_path):
         """Генерация HTML-отчёта"""
         os.makedirs(os.path.dirname(filename), exist_ok=True)
 
@@ -288,7 +293,7 @@ class AsyncWebCrawler:
         self.logger.info(f"HTML-отчёт сохранён в {filename}")
         print(f"HTML-отчёт сохранён в: {filename}")
 
-    def save_results(self, filename: str = 'reports/async2_structure.json'):
+    def save_results(self, filename: str = report_path):
         """
         Сохраняет результаты сканирования.
         """
