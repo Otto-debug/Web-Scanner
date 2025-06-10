@@ -18,5 +18,5 @@ COPY . .
 # Создаём директории для логов и отчётов
 RUN mkdir -p logs reports
 
-# Указываем команду по умолчанию
-CMD ["python", "speed_script.py"]
+# Команда по умолчанию
+CMD ["python"]
